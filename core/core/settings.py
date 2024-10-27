@@ -16,7 +16,7 @@ from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+SHOW_DEBUGGER_TOOLBAR = config("SHOW_DEBUGGER_TOOLBAR",cast=bool , default=False)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
@@ -161,3 +161,10 @@ EMAIL_HOST_USER = config("EMAIL_HOST_USER",default='')
 EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD",default='')
 EMAIL_USE_SSL = config("EMAIL_USE_SSL",default=False)
 
+if SHOW_DEBUGGER_TOOLBAR :
+    INSTALLED_APPS += [
+        "debug_toolbar" , 
+    ]
+    MIDDLEWARE += [
+        "debug_toolbar.middleware.DebugToolbarMiddleware",
+    ]
