@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'website',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -72,7 +73,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'core.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -141,6 +141,8 @@ STATIC_ROOT=BASE_DIR / 'staticfiles'
 MEDIA_ROOT=BASE_DIR / 'media'
 
 STATICFILES_DIRS = ((os.path.join(BASE_DIR, 'static')), )
+
+AUTH_USER_MODEL = 'accounts.User'
 
 
 
