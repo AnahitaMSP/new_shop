@@ -5,3 +5,4 @@ from . models import ProductModel,ProductStatusType
 class ShopProductGridView(ListView):
     template_name = "shop/product_grid.html"
     queryset=ProductModel.objects.filter(status=ProductStatusType.publish.value)
+    
