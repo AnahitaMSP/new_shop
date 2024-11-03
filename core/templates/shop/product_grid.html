@@ -360,7 +360,7 @@
                   </div>
 
                   <h4 class="card-title">
-                    <a class="text-dark" href="/product-overview.html">{{object.title}}</a>
+                    <a class="text-dark" href="{% url 'shop:product-detail' slug=object.slug %}">{{object.title}}</a>
                   </h4>
                   <p class="card-text text-dark"> تومان{{object.get_price}}</p>
                 </div>
