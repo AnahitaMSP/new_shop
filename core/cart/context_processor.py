@@ -1,3 +1,7 @@
+from cart.cart import CartSession
+
 
 def cart_processor(request):
-    return {'test':'anagita'}
+
+    cart = CartSession(request.session) 
+    return {'cart':cart}
