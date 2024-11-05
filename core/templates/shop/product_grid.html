@@ -234,7 +234,7 @@
                             <button type="button" class="btn btn-outline-primary btn-sm btn-transition rounded-pill"
                                 onclick="addToCart('{{object.id}}')">افزودن به سبد
                                 خرید</button>
-                        </div>
+                        </div> 
                     </div>
                     <!-- End Card -->
                 </div>
@@ -403,8 +403,32 @@
     current_url_params.set('page', pageNumber); // or whatever your page parameter is called
     let new_url = window.location.pathname + "?" + current_url_params.toString();
     window.location.href = new_url; // Redirect to the new URL
-}
+ }
 
 </script>
 
+<script>
+    function addToCart(product_id) {
+        alert(product_id); // Alert the product ID
+    
+        $.ajax({
+            url: "{% url 'cart:session-add-product' %}",
+            method: 'POST',
+            data: {
+                product_id: product_id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function(response) {
+                console.log(response); // Handle success response
+                // You can update the cart display here if needed
+            },
+            error: function(xhr, status, error) {
+                console.error(error); // Handle error response
+            }
+        });
+    }
+    </script>
+    
+
 {% endblock %}
+
