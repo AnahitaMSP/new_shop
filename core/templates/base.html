@@ -40,7 +40,7 @@
     <div class="container">
       <nav class="js-mega-menu navbar-nav-wrap">
         <!-- Default Logo -->
-        <a class="navbar-brand" href="/index.html" aria-label="Front">
+        <a class="navbar-brand" href="{% url 'website:index' %}" aria-label="Front">
           <img class="navbar-brand-logo" src="{% static 'svg/logos/logo.svg' %}" alt="Logo">
         </a>
         <!-- End Default Logo -->
@@ -87,13 +87,31 @@
               </button>
               <!-- End Search -->
 
+
+
               <!-- Shopping Cart -->
-              <button type="button" class="btn btn-ghost-secondary btn-icon" type="button" data-bs-toggle="offcanvas"
+              <!-- <button type="button" class="btn btn-ghost-secondary btn-icon" type="button" data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasNavbarShoppingCart" aria-controls="offcanvasNavbarShoppingCart">
                 <i class="bi-basket"></i>
                 <span class="cart-item-count ">3</span>
-              </button>
+              </button> -->
+
+
+              <a href="{% url 'cart:session-cart-summary' %}" 
+              class="btn btn-ghost-secondary btn-icon" 
+                >
+                <i class="bi-basket"></i>
+                <span class="cart-item-count ">{{cart.get_total_quantity}}</span>
+            </a>
+
+
               <!-- End Shopping Cart -->
+
+
+
+
+
+
 
               {% if request.user.is_authenticated %}
 

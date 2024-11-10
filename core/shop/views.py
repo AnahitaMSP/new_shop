@@ -32,6 +32,7 @@ class ShopProductGridView(ListView):
         context =  super().get_context_data(**kwargs)
         context["total_item"] = self.get_queryset().count()
         context["categories"] = ProductCategoryModel.objects.all()
+        self.request.session['fav_color'] = 'blue'
 
 
         return context
@@ -39,5 +40,10 @@ class ShopProductGridView(ListView):
 class ShopProductDetailView(DeleteView):
     template_name = "shop/product_detail.html"
     queryset=ProductModel.objects.filter(status=ProductStatusType.publish.value)
+
+    def get_context_data(self,**kwargs):
+        context =  super().get_context_data(**kwargs)
+        print(self.request.session.get('fav_color'))
+        return context
 
 

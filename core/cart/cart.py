@@ -1,8 +1,6 @@
 class CartSession:
     def __init__(self, session):
         self.session = session
-        
-        # Initialize the cart from the session or set a default
         self.cart = self.session.setdefault(
             "cart",
             {
@@ -11,11 +9,9 @@ class CartSession:
                 'total_items': 0,
             }
         )
-        
-        self.clear()
-        # Add a product to the cart
+
+        # self.clear()
         self.add_product("100")
-        
 
     def add_product(self, product_id):
         # Check if the product already exists in the cart
@@ -43,7 +39,15 @@ class CartSession:
         self.save()
 
     def get_cart_items(self):
-        return self.cart["items"]
+        return self.cart
+
+    # def get_total_quantity(self):
+    #     # total_quantity=0
+    #     # for item in self.cart['items']:
+    #     #     item['quantity'] += total_quantity
+    #     total_quantity = len(self.cart['items'])
+    #     return total_quantity
+
 
     def save(self):
         self.session.modified = True

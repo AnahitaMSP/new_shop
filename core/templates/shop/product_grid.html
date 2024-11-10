@@ -408,9 +408,8 @@
 </script>
 
 <script>
-    function addToCart(product_id) {
-        alert(product_id); // Alert the product ID
-    
+    function addToCart(product_id) { 
+        console.log(product_id)
         $.ajax({
             url: "{% url 'cart:session-add-product' %}",
             method: 'POST',
