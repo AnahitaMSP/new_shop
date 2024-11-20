@@ -11,7 +11,6 @@
               <img class="avatar-img" src="{{request.user.user_profile.image.url}}" alt="Image Description" />
 
             </div>
-
             <h4 class="card-title mb-0">{{request.user.user_profile.get_fullname}}</h4>
             <p class="card-text small">{{request.user.email}}</p>
           </div>
@@ -28,7 +27,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="{% url 'dashboard:admin:security-edit' %}">
                 <i class="bi-shield-shaded nav-icon"></i> امنیت
               </a>
             </li>
