@@ -47,6 +47,17 @@ class ProductModel(models.Model):
         
     def __str__(self):
         return self.title
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'image_url': self.image.url if self.image else None,
+            'price': self.get_price(),  # Assuming get_price() returns the price
+            'slug': self.slug,
+            'categories': [category.title for category in self.category.all()],
+            # Add any other fields you want to include
+        }
     
     def get_price(self):        
         discount_amount = self.price * Decimal(self.discount_percent / 100)

@@ -61,78 +61,52 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link active" href="{% url 'website:index' %}">صفحه اصلی</a>
+                <a class="nav-link {% if request.resolver_match.view_name == 'website:index' %}active{% endif %}" href="{% url 'website:index' %}">صفحه اصلی</a>
             </li>
-
+        
             <li class="nav-item">
-              <a class="nav-link " href="{% url 'shop:product-grid' %}">لیست محصولات </a>
+                <a class="nav-link {% if request.resolver_match.view_name == 'shop:product-grid' %}active{% endif %}" href="{% url 'shop:product-grid' %}">لیست محصولات</a>
             </li>
-
-            
+        
             <li class="nav-item">
-              <a class="nav-link " href="{% url 'website:about' %}">درباره ما </a>
+                <a class="nav-link {% if request.resolver_match.view_name == 'website:about' %}active{% endif %}" href="{% url 'website:about' %}">درباره ما</a>
             </li>
-
-            
+        
             <li class="nav-item">
-              <a class="nav-link " href="{% url 'website:contact' %}"> ارتباط با ما </a>
+                <a class="nav-link {% if request.resolver_match.view_name == 'website:contact' %}active{% endif %}" href="{% url 'website:contact' %}">ارتباط با ما</a>
             </li>
-
-
+        
             <li class="nav-item">
-              <!-- Search -->
-              <button class="btn btn-ghost-secondary btn-icon" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasNavbarSearch" aria-controls="offcanvasNavbarSearch">
-                <i class="bi-search"></i>
-              </button>
-              <!-- End Search -->
-
-
-
-              <!-- Shopping Cart -->
-              <!-- <button type="button" class="btn btn-ghost-secondary btn-icon" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasNavbarShoppingCart" aria-controls="offcanvasNavbarShoppingCart">
-                <i class="bi-basket"></i>
-                <span class="cart-item-count ">3</span>
-              </button> -->
-
-
-              <a href="{% url 'cart:session-cart-summary' %}" 
-              class="btn btn-ghost-secondary btn-icon" 
-                >
-                <i class="bi-basket"></i>
-                <span class="cart-item-count ">{{cart.get_total_quantity}}</span>
-            </a>
-
-
-              <!-- End Shopping Cart -->
-
-
-
-
-
-
-
-              {% if request.user.is_authenticated %}
-
-              <button class="btn btn-ghost-secondary btn-icon" id="dropdownMenuLink"
-                  data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <span class="avatar avatar-sm avatar-circle">
-                      <img class="avatar-img" src="{% static 'svg/logos/logo.svg' %}"
-                          alt="Image Description">
-                  </span>
-              </button>
-
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                  <a class="dropdown-item" href="#">پروفایل</a>
-                  <a class="dropdown-item" href="{% url 'accounts:logout' %}">خروج</a>
-              </div>
-
-              {% else %}
-              <a class="btn btn-primary btn-transition" href="{% url 'accounts:login' %}">ورود</a>
-              {% endif %}
+                <!-- Search -->
+                <button class="btn btn-ghost-secondary btn-icon" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarSearch" aria-controls="offcanvasNavbarSearch">
+                    <i class="bi-search"></i>
+                </button>
+                <!-- End Search -->
+        
+                <!-- Shopping Cart -->
+                <a href="{% url 'cart:session-cart-summary' %}" class="btn btn-ghost-secondary btn-icon">
+                    <i class="bi-basket"></i>
+                    <span class="cart-item-count" id="total-cart-item-count">{{ cart.get_total_quantity }}</span>
+                </a>
+                <!-- End Shopping Cart -->
+        
+                {% if request.user.is_authenticated %}
+                    <button class="btn btn-ghost-secondary btn-icon" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="avatar avatar-sm avatar-circle">
+                            <img class="avatar-img" src="{% static 'svg/logos/logo.svg' %}" alt="Image Description">
+                        </span>
+                    </button>
+        
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="#">پروفایل</a>
+                        <a class="dropdown-item" href="{% url 'accounts:logout' %}">خروج</a>
+                    </div>
+                {% else %}
+                    <a class="btn btn-primary btn-transition" href="{% url 'accounts:login' %}">ورود</a>
+                {% endif %}
             </li>
-          </ul>
+        </ul>
+        
         </div>
         <!-- End Collapse -->
       </nav>
@@ -453,6 +427,7 @@
   <script src="{% static 'vendor/toastify/toastify.js' %}"></script>
 
   <!-- JS Plugins Init. -->
+
   <script>
     (function () {
       // INITIALIZATION OF MEGA MENU
@@ -553,6 +528,29 @@
       })
     })()
   </script>
+
+<script>
+  function addToCart(product_id) { 
+        $.ajax({
+          url: "{% url 'cart:session-add-product' %}",
+          method: 'POST',
+          data: {
+              product_id: product_id,
+              csrfmiddlewaretoken: '{{ csrf_token }}'
+          },
+          success: function(response) {
+              $("#total-cart-item-count").html(response.total_quantity)
+
+              console.log(response); // Handle success response
+              // You can update the cart display here if needed
+          },
+          error: function(xhr, status, error) {
+              console.error(error); // Handle error response
+          }
+      });
+  }
+  </script>
+  
 
 {% block extra_js %} {% endblock %}
 

@@ -407,27 +407,7 @@
 
 </script>
 
-<script>
-    function addToCart(product_id) { 
-        console.log(product_id)
-        $.ajax({
-            url: "{% url 'cart:session-add-product' %}",
-            method: 'POST',
-            data: {
-                product_id: product_id,
-                csrfmiddlewaretoken: '{{ csrf_token }}'
-            },
-            success: function(response) {
-                console.log(response); // Handle success response
-                // You can update the cart display here if needed
-            },
-            error: function(xhr, status, error) {
-                console.error(error); // Handle error response
-            }
-        });
-    }
-    </script>
-    
+
 
 {% endblock %}
 

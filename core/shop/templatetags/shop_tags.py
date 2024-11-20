@@ -16,7 +16,5 @@ def show_similar_products(product):
         category__in=product_categories
     ).order_by("-created_date")[:4]
 
-    # Debugging output
-    # print(f"Product: {product.title}, Similar Products Count: {similar_products.count()}")
 
     return {"similar_products": similar_products}
