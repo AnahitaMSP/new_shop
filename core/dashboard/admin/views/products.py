@@ -1,6 +1,6 @@
 from django.shortcuts import  redirect 
 from django.urls import reverse_lazy
-from django.views.generic import UpdateView,ListView
+from django.views.generic import UpdateView,ListView,DeleteView,CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from accounts.models import UserType
 from dashboard.permissions import HasAdminAccessPermission
@@ -46,3 +46,37 @@ class AdminProductListView(LoginRequiredMixin,HasAdminAccessPermission,ListView)
 
 
         return context
+
+class AdminProductEdittView(LoginRequiredMixin,HasAdminAccessPermission,SuccessMessageMixin,UpdateView):
+    queryset = ProductModel.objects.all()
+    template_name = "dashboard/admin/products/product-edit.html"
+    form_class=ProductForm
+
+    success_message='ویرایش محصول انجام شد'
+
+    def get_success_url(self):
+        return reverse_lazy("dashboard:admin:product-edit",kwargs={'pk':self.get_object().pk})
+
+class AdminProductDeleteView(LoginRequiredMixin,HasAdminAccessPermission,SuccessMessageMixin,DeleteView):
+    success_message='محصول با موفقیت حذف شد'
+    template_name = "dashboard/admin/products/product-delete.html"
+    success_url=reverse_lazy("dashboard:admin:product-list")
+
+    queryset = ProductModel.objects.all()
+
+class AdminProductCreateView(LoginRequiredMixin, HasAdminAccessPermission, SuccessMessageMixin, CreateView):
+    queryset = ProductModel.objects.all()
+    template_name = "dashboard/admin/products/product-create.html"
+    form_class = ProductForm
+    success_message = 'ایجاد محصول انجام شد'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        super().form_valid(form)  # Call super to save the form and set self.object
+        return redirect(reverse_lazy("dashboard:admin:product-edit",kwargs={'pk':form.instance.pk}))
+
+    def get_success_url(self):
+        return reverse_lazy("dashboard:admin:product-edit", kwargs={'pk': self.object.pk})  # Use self.object
+
+
+
